@@ -135,3 +135,4 @@ npm run tauri:build
 1. **Keep Web Pure**: Do not install bundling frameworks (Webpack, Vite, Tailwind, React) inside `web/` unless explicitly instructed. Keep HTML, CSS, and JS modular and plain.
 2. **Preserve Audio Reliability**: Browsers suspend `AudioContext` until the first user interaction. `ensureContext()` handles resuming on button clicks. Keep this mechanism intact.
 3. **Accessibility & Responsive**: Support both desktop widescreen and compact mobile/mini-bar views.
+4. **Preserve 90-degree Physical Rotation**: Vertical mode (`.vertical-mode`) must NOT reflow inner DOM children into columns. The entire `.timer-device` rotates by 90 degrees (`transform: rotate(90deg)`) inside `.device-stage`, preserving authentic hardware proportions without layout distortion.

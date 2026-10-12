@@ -25,8 +25,8 @@
           <span>📏</span> コンパクト
         </button>
         <!-- Orientation toggle -->
-        <button class="action-pill-btn" id="orientationBtn" title="縦置き/横置き切替">
-          <span>🔄</span> 縦/横
+        <button class="action-pill-btn" id="orientationBtn" title="縦置き/横置き (90°回転切替)">
+          <span id="orientationIcon">🔄</span> <span id="orientationLabel">縦置き(90°)</span>
         </button>
         <!-- Theme toggle -->
         <button class="action-pill-btn" id="themeToggleBtn" title="白/黒テーマ切替">
@@ -35,8 +35,10 @@
       </div>
     </header>
 
-    <!-- Main Hardware Unit Body -->
-    <main class="timer-device" id="deviceUnit">
+    <!-- Stage wrapper for rotation support -->
+    <div class="device-stage" id="deviceStage">
+      <!-- Main Hardware Unit Body -->
+      <main class="timer-device" id="deviceUnit">
       <!-- Device Header & Switches -->
       <div class="device-header">
         <div class="brand-label">
@@ -108,8 +110,9 @@
         </button>
       </div>
     </main>
+  </div>
 
-    <!-- Quick Presets & Usage Guide -->
+  <!-- Quick Presets & Usage Guide -->
     <aside class="quick-panel" id="quickPanel">
       <div class="quick-title">クイックプリセット & 操作ガイド</div>
       <div class="preset-tags">

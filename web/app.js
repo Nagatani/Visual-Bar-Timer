@@ -85,6 +85,7 @@
     pinIcon: document.getElementById('pinIcon'),
     compactModeBtn: document.getElementById('compactModeBtn'),
     orientationBtn: document.getElementById('orientationBtn'),
+    orientationLabel: document.getElementById('orientationLabel'),
     themeToggleBtn: document.getElementById('themeToggleBtn'),
     themeLabel: document.getElementById('themeLabel'),
     quickPanel: document.getElementById('quickPanel'),
@@ -500,22 +501,30 @@
     window.timerAudio.buttonTick();
   }
 
-  // Orientation Toggle (Horizontal / Vertical bar)
+  // Orientation Toggle (Physical 90-degree Rotation)
   function toggleOrientation() {
     state.isVertical = !state.isVertical;
-    dom.deviceUnit.classList.toggle('vertical-mode', state.isVertical);
+    dom.body.classList.toggle('vertical-mode', state.isVertical);
+    dom.orientationBtn.classList.toggle('active', state.isVertical);
+    if (dom.orientationLabel) {
+      dom.orientationLabel.textContent = state.isVertical ? '横置き(0°)' : '縦置き(90°)';
+    }
     window.timerAudio.buttonTick();
+
+    if (window.tauriDesktop && window.tauriDesktop.updateWindowDimensions) {
+      window.tauriDesktop.updateWindowDimensions();
+    }
   }
 
   // Compact Mini Floating Bar Mode
   function toggleCompactMode() {
     state.isCompact = !state.isCompact;
     dom.body.classList.toggle('compact-mode', state.isCompact);
+    dom.compactModeBtn.classList.toggle('active', state.isCompact);
     window.timerAudio.buttonTick();
 
-    // If running in Tauri, also adapt desktop window size!
-    if (window.tauriDesktop) {
-      window.tauriDesktop.setCompactWindow(state.isCompact);
+    if (window.tauriDesktop && window.tauriDesktop.updateWindowDimensions) {
+      window.tauriDesktop.updateWindowDimensions();
     }
   }
 
@@ -602,23 +611,26 @@
             console.error('Failed to set always on top:', err);
           }
         },
-        async setCompactWindow(compact) {
+        async updateWindowDimensions() {
           try {
-            try {
-              await invoke('set_compact_size', { compact });
-            } catch (e) {
-              if (tauri && tauri.window) {
-                const current = tauri.window.getCurrentWindow();
-                if (compact) {
-                  await current.setSize(new tauri.window.LogicalSize(660, 160));
-                } else {
-                  await current.setSize(new tauri.window.LogicalSize(940, 520));
-                }
+            if (tauri && tauri.window) {
+              const current = tauri.window.getCurrentWindow();
+              let w = 940, h = 520;
+              if (state.isVertical && state.isCompact) {
+                w = 240; h = 760;
+              } else if (state.isVertical) {
+                w = 380; h = 980;
+              } else if (state.isCompact) {
+                w = 660; h = 180;
               }
+              await current.setSize(new tauri.window.LogicalSize(w, h));
             }
           } catch (err) {
-            console.error('Failed to set compact size:', err);
+            console.error('Failed to update window dimensions:', err);
           }
+        },
+        async setCompactWindow(compact) {
+          await this.updateWindowDimensions();
         }
       };
 

@@ -157,10 +157,20 @@ body {
 }
 
 /* =====================================================================
-   Hardware Unit Simulation
+   Device Stage Wrapper & Hardware Unit Simulation
 ===================================================================== */
+.device-stage {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 .timer-device {
   width: 100%;
+  max-width: 900px;
   background: var(--body-bg);
   border: 2px solid var(--body-border);
   box-shadow: var(--body-shadow);
@@ -170,7 +180,8 @@ body {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: center center;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
 }
 
 /* Product Logo & Branding on Hardware */
@@ -582,29 +593,34 @@ body.compact-mode .hw-button .btn-sublabel {
 }
 
 /* =====================================================================
-   VERTICAL BAR ORIENTATION
+   VERTICAL ORIENTATION (PHYSICAL 90-DEGREE ROTATION)
 ===================================================================== */
-.timer-device.vertical-mode {
-  max-width: 220px;
-  margin: 0 auto;
+body.vertical-mode .device-stage {
+  width: 290px;
+  height: 920px;
+  margin: 30px auto;
 }
 
-.timer-device.vertical-mode .timer-lcd-screen {
-  flex-direction: column;
+body.vertical-mode .timer-device {
+  width: 880px;
+  max-width: 880px;
+  position: absolute;
+  transform: rotate(90deg);
+  box-shadow: 16px 0 36px rgba(0, 0, 0, 0.4);
 }
 
-.timer-device.vertical-mode .lcd-bar-track {
-  flex-direction: column-reverse;
-  height: 320px;
-  width: 100%;
+/* Combined Compact + Vertical Mode */
+body.compact-mode.vertical-mode .device-stage {
+  width: 170px;
+  height: 680px;
+  margin: 20px auto;
 }
 
-.timer-device.vertical-mode .hardware-buttons-grid {
-  grid-template-columns: 1fr 1fr;
-}
-
-.timer-device.vertical-mode .hw-button.btn-start-stop {
-  grid-column: span 2;
+body.compact-mode.vertical-mode .timer-device {
+  width: 640px;
+  max-width: 640px;
+  position: absolute;
+  transform: rotate(90deg);
 }
 
 /* Responsive adjustments for mobile screens */
