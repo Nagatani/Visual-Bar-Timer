@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ビジュアルバータイマー</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-theme="white">
+
+  <div class="app-container">
+    <!-- Desktop / Tauri Window Controls Header -->
+    <header class="window-drag-region" id="windowHeader">
+      <div class="window-title">
+        <span class="title-badge">20-BAR</span>
+        <span>Visual Bar Timer</span>
+      </div>
+      <div class="window-actions">
+        <!-- Always on Top toggle (desktop feature) -->
+        <button class="action-pill-btn" id="pinTopBtn" title="最前面に固定 (Tauri)">
+          <span id="pinIcon">📌</span> 最前面
+        </button>
+        <!-- Compact Floating Bar Mode -->
+        <button class="action-pill-btn" id="compactModeBtn" title="コンパクトバー表示切替">
+          <span>📏</span> コンパクト
+        </button>
+        <!-- Orientation toggle -->
+        <button class="action-pill-btn" id="orientationBtn" title="縦置き/横置き切替">
+          <span>🔄</span> 縦/横
+        </button>
+        <!-- Theme toggle -->
+        <button class="action-pill-btn" id="themeToggleBtn" title="白/黒テーマ切替">
+          <span id="themeLabel">⬛ 黒テーマ</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Hardware Unit Body -->
+    <main class="timer-device" id="deviceUnit">
+      <!-- Device Header & Switches -->
+      <div class="device-header">
+        <div class="brand-label">
+          <span class="brand-name">VISUAL TIMER</span>
+          <span class="model-name">20-SEGMENT BAR DISPLAY</span>
+        </div>
+        <div class="device-switches">
+          <div class="slide-switch-container">
+            <span>SOUND</span>
+            <div class="physical-toggle on" id="soundToggle" title="消音/サウンド切替 (MUTE)"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- High-contrast LCD Display Area -->
+      <section class="timer-lcd-screen" id="lcdScreen">
+        <!-- Status / Mode Indicators -->
+        <div class="lcd-indicators">
+          <span class="indicator-item active" id="indCd">CD (カウントダウン)</span>
+          <span class="indicator-item" id="indCu">CU (カウントアップ)</span>
+          <span class="indicator-item" id="indRepeat">REPEAT (リピート)</span>
+          <span class="indicator-item" id="indWork">WORK</span>
+          <span class="indicator-item" id="indRest">REST</span>
+          <span class="indicator-item" id="indMute">🔇 MUTE</span>
+        </div>
+
+        <!-- 20-Segment Visual Bar Display -->
+        <div class="lcd-bar-track" id="barTrack">
+          <!-- 20 bar segments generated dynamically or statically -->
+        </div>
+
+        <!-- LCD Digits and Step details -->
+        <div class="lcd-bottom-row">
+          <div class="lcd-info-badge" id="repeatStepInfo">
+            SET <span id="currentSetNum">--</span> / <span id="totalSetNum">--</span>
+          </div>
+
+          <div class="lcd-digits-display setting" id="lcdDigits">
+            <span id="digitMinutes">00</span><span class="time-colons">:</span><span id="digitSeconds">00</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Physical Tactile Buttons -->
+      <div class="hardware-buttons-grid">
+        <button class="hw-button" id="btnMode" title="通常/リピート切替">
+          <span class="btn-label">MODE</span>
+          <span class="btn-sublabel">通常/リピート</span>
+        </button>
+        <button class="hw-button" id="btnPlus10M" title="+10分">
+          <span class="btn-label">10分</span>
+          <span class="btn-sublabel">+10 MIN</span>
+        </button>
+        <button class="hw-button" id="btnPlus1M" title="+1分">
+          <span class="btn-label">1分</span>
+          <span class="btn-sublabel">+1 MIN</span>
+        </button>
+        <button class="hw-button" id="btnPlus10S" title="+10秒">
+          <span class="btn-label">10秒</span>
+          <span class="btn-sublabel">+10 SEC</span>
+        </button>
+        <button class="hw-button btn-start-stop" id="btnStartStop" title="スタート/ストップ/決定">
+          <span class="btn-label" id="startStopText">START</span>
+          <span class="btn-sublabel">決定 / 停止</span>
+        </button>
+        <button class="hw-button btn-reset" id="btnReset" title="リセット (1分+10秒同時押し)">
+          <span class="btn-label">RESET</span>
+          <span class="btn-sublabel">リセット</span>
+        </button>
+      </div>
+    </main>
+
+    <!-- Quick Presets & Usage Guide -->
+    <aside class="quick-panel" id="quickPanel">
+      <div class="quick-title">クイックプリセット & 操作ガイド</div>
+      <div class="preset-tags">
+        <button class="preset-chip" data-preset="pomodoro">🍅 ポモドーロ (作業25分 / 休憩5分 ×4)</button>
+        <button class="preset-chip" data-preset="pomodoro50">⚡ 集中50分 (作業50分 / 休憩10分 ×2)</button>
+        <button class="preset-chip" data-preset="3m">🍜 3分 (ラーメン)</button>
+        <button class="preset-chip" data-preset="5m">☕ 5分 (小休憩)</button>
+        <button class="preset-chip" data-preset="15m">🗣️ 15分 (ライトミーティング)</button>
+        <button class="preset-chip" data-preset="25m">🎯 25分 (シングルタスク)</button>
+        <button class="preset-chip" data-preset="60m">📖 60分 (学習・読書)</button>
+      </div>
+      <div class="control-shortcuts">
+        <span>ショートカット: <kbd>Space</kbd> スタート/ストップ</span>
+        <span><kbd>R</kbd> リセット</span>
+        <span><kbd>M</kbd> モード</span>
+        <span><kbd>S</kbd> 消音切替</span>
+        <span><kbd>1</kbd> +10分</span>
+        <span><kbd>2</kbd> +1分</span>
+        <span><kbd>3</kbd> +10秒</span>
+      </div>
+    </aside>
+  </div>
+
+  <script src="audio.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

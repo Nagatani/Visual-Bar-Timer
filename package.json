@@ -1,0 +1,25 @@
+{
+  "name": "visual-bar-timer",
+  "version": "1.0.0",
+  "description": "Visual Bar Timer - Web & Tauri Desktop App with 20-segment LCD display",
+  "scripts": {
+    "start": "npx serve web -p 3000",
+    "web": "npx serve web -p 3000",
+    "tauri": "tauri",
+    "tauri:dev": "tauri dev",
+    "tauri:build": "tauri build"
+  },
+  "keywords": [
+    "timer",
+    "pomodoro",
+    "visual-bar-timer",
+    "tauri",
+    "pure-js"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@tauri-apps/api": "^2.2.0",
+    "@tauri-apps/cli": "^2.2.0"
+  }
+}

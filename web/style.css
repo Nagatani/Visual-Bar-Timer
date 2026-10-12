@@ -1,0 +1,625 @@
+/* Visual Bar Timer - Authentic Pure CSS Styling */
+
+:root {
+  --bg-color: #0f172a;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  
+  /* White Theme */
+  --body-white-bg: linear-gradient(180deg, #fbfbfb 0%, #ececec 100%);
+  --body-white-border: #d5d7da;
+  --body-white-shadow: 0 16px 36px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.8), inset 0 -2px 0 rgba(0, 0, 0, 0.1);
+  --lcd-white-bg: #d0d7cf;
+  --lcd-white-border: #9fa79d;
+  --lcd-white-segment-off: rgba(70, 80, 70, 0.08);
+  --lcd-white-segment-on: #1a221a;
+  --lcd-white-text: #192019;
+
+  /* Black Theme */
+  --body-black-bg: linear-gradient(180deg, #2a2c30 0%, #1e1f23 100%);
+  --body-black-border: #141517;
+  --body-black-shadow: 0 16px 36px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1), inset 0 -2px 0 rgba(0, 0, 0, 0.3);
+  --lcd-black-bg: #15181b;
+  --lcd-black-border: #0d0f11;
+  --lcd-black-segment-off: rgba(255, 255, 255, 0.05);
+  --lcd-black-segment-on: #00e676; /* Vivid green or pure white */
+  --lcd-black-text: #00e676;
+
+  /* Active Theme Variables */
+  --body-bg: var(--body-white-bg);
+  --body-border: var(--body-white-border);
+  --body-shadow: var(--body-white-shadow);
+  --lcd-bg: var(--lcd-white-bg);
+  --lcd-border: var(--lcd-white-border);
+  --lcd-segment-off: var(--lcd-white-segment-off);
+  --lcd-segment-on: var(--lcd-white-segment-on);
+  --lcd-text: var(--lcd-white-text);
+  --lcd-sub-text: rgba(25, 32, 25, 0.55);
+
+  --btn-bg: linear-gradient(180deg, #f8f9fa 0%, #e2e6ea 100%);
+  --btn-text: #2d3748;
+  --btn-border: #caced3;
+  --btn-shadow: 0 3px 0 #b3b7bd, 0 4px 6px rgba(0,0,0,0.12);
+  --btn-active-shadow: 0 1px 0 #b3b7bd, 0 1px 2px rgba(0,0,0,0.1);
+}
+
+[data-theme="black"] {
+  --body-bg: var(--body-black-bg);
+  --body-border: var(--body-black-border);
+  --body-shadow: var(--body-black-shadow);
+  --lcd-bg: var(--lcd-black-bg);
+  --lcd-border: var(--lcd-black-border);
+  --lcd-segment-off: var(--lcd-black-segment-off);
+  --lcd-segment-on: var(--lcd-black-segment-on);
+  --lcd-text: var(--lcd-black-text);
+  --lcd-sub-text: rgba(0, 230, 118, 0.5);
+
+  --btn-bg: linear-gradient(180deg, #373a40 0%, #2b2d32 100%);
+  --btn-text: #f1f3f5;
+  --btn-border: #222428;
+  --btn-shadow: 0 3px 0 #18191c, 0 4px 6px rgba(0,0,0,0.4);
+  --btn-active-shadow: 0 1px 0 #18191c, 0 1px 2px rgba(0,0,0,0.3);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  overflow-x: hidden;
+  transition: background-color 0.25s ease;
+}
+
+/* App container */
+.app-container {
+  width: 100%;
+  max-width: 980px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Top bar / Window controls (Tauri header) */
+.window-drag-region {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 12px;
+  background: rgba(15, 23, 42, 0.8);
+  border-radius: 8px;
+  backdrop-filter: blur(8px);
+  -webkit-app-region: drag; /* Tauri window drag */
+}
+
+.window-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.title-badge {
+  background: #3b82f6;
+  color: white;
+  font-size: 0.7rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.window-actions {
+  display: flex;
+  gap: 8px;
+  -webkit-app-region: no-drag;
+}
+
+.action-pill-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #cbd5e1;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.15s ease;
+}
+
+.action-pill-btn:hover {
+  background: rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+}
+
+.action-pill-btn.active {
+  background: #3b82f6;
+  border-color: #60a5fa;
+  color: #ffffff;
+}
+
+/* =====================================================================
+   Hardware Unit Simulation
+===================================================================== */
+.timer-device {
+  width: 100%;
+  background: var(--body-bg);
+  border: 2px solid var(--body-border);
+  box-shadow: var(--body-shadow);
+  border-radius: 16px;
+  padding: 18px 24px 22px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Product Logo & Branding on Hardware */
+.device-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 4px;
+}
+
+.brand-label {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.brand-name {
+  font-weight: 800;
+  font-size: 0.95rem;
+  letter-spacing: 0.08em;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+[data-theme="black"] .brand-name {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.model-name {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="black"] .model-name {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.device-switches {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Sound Switch (Simulating physical slide switch) */
+.slide-switch-container {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+[data-theme="black"] .slide-switch-container {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.physical-toggle {
+  position: relative;
+  width: 38px;
+  height: 20px;
+  background: #bbb;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.physical-toggle.on {
+  background: #10b981;
+}
+
+.physical-toggle::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  background: #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.physical-toggle.on::after {
+  transform: translateX(18px);
+}
+
+/* =====================================================================
+   MAIN LCD SCREEN (AUTHENTIC BAR + DIGITS DISPLAY)
+===================================================================== */
+.timer-lcd-screen {
+  background: var(--lcd-bg);
+  border: 3px solid var(--lcd-border);
+  border-radius: 8px;
+  box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.25), 0 1px 2px rgba(255, 255, 255, 0.4);
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: relative;
+  transition: background-color 0.25s, border-color 0.25s;
+}
+
+/* Flashing effect for Silent Alarm / Time Up */
+.timer-lcd-screen.alarm-flash {
+  animation: lcdBlink 0.5s infinite alternate;
+}
+
+@keyframes lcdBlink {
+  0% { filter: brightness(1); }
+  100% { filter: brightness(1.7) contrast(1.2); }
+}
+
+/* Indicators Row (Mode, Status, Repeat) */
+.lcd-indicators {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: "Courier New", Courier, monospace, sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--lcd-sub-text);
+}
+
+.indicator-item {
+  opacity: 0.25;
+  transition: opacity 0.15s ease;
+}
+
+.indicator-item.active {
+  opacity: 1;
+  color: var(--lcd-text);
+  font-weight: 900;
+  text-shadow: 0 0 1px currentColor;
+}
+
+/* 20 Segments Visual Bar */
+.lcd-bar-track {
+  width: 100%;
+  height: 48px;
+  display: flex;
+  gap: 5px;
+  align-items: stretch;
+  background: rgba(0, 0, 0, 0.05);
+  padding: 3px;
+  border-radius: 4px;
+}
+
+.bar-segment {
+  flex: 1;
+  background: var(--lcd-segment-off);
+  border-radius: 2px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  transition: background-color 0.12s ease, transform 0.1s ease;
+  position: relative;
+}
+
+[data-theme="black"] .bar-segment {
+  border-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Active Segment */
+.bar-segment.active {
+  background: var(--lcd-segment-on);
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="black"] .bar-segment.active {
+  box-shadow: 0 0 6px var(--lcd-segment-on);
+}
+
+/* Alternate color for Break/Rest intervals */
+.timer-lcd-screen.mode-break .bar-segment.active {
+  background: #3b82f6 !important;
+  box-shadow: 0 0 6px #60a5fa !important;
+}
+
+/* LCD Digits Section */
+.lcd-bottom-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 0 4px;
+}
+
+.lcd-info-badge {
+  font-family: "Courier New", Courier, monospace;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--lcd-sub-text);
+}
+
+.lcd-info-badge span {
+  color: var(--lcd-text);
+  font-size: 1.05rem;
+}
+
+.lcd-digits-display {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  font-family: "Courier New", "Lucida Console", Monaco, monospace;
+  font-size: 3.4rem;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: 0.05em;
+  color: var(--lcd-text);
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.15);
+}
+
+.lcd-digits-display .time-colons {
+  animation: colonBlink 1s step-start infinite;
+  margin: 0 2px;
+}
+
+.lcd-digits-display.paused .time-colons,
+.lcd-digits-display.setting .time-colons {
+  animation: none;
+}
+
+@keyframes colonBlink {
+  50% { opacity: 0.25; }
+}
+
+/* =====================================================================
+   PHYSICAL HARDWARE BUTTONS ROW
+===================================================================== */
+.hardware-buttons-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1.3fr 1fr;
+  gap: 12px;
+  padding-top: 4px;
+}
+
+.hw-button {
+  background: var(--btn-bg);
+  border: 1px solid var(--btn-border);
+  box-shadow: var(--btn-shadow);
+  color: var(--btn-text);
+  border-radius: 8px;
+  height: 54px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  transition: all 0.08s ease;
+  position: relative;
+  outline: none;
+}
+
+.hw-button:active,
+.hw-button.pressed {
+  transform: translateY(2px);
+  box-shadow: var(--btn-active-shadow);
+}
+
+.hw-button .btn-label {
+  font-size: 0.92rem;
+  letter-spacing: 0.03em;
+}
+
+.hw-button .btn-sublabel {
+  font-size: 0.65rem;
+  font-weight: 500;
+  opacity: 0.65;
+  margin-top: 2px;
+}
+
+/* Start/Stop Button distinct color */
+.hw-button.btn-start-stop {
+  background: linear-gradient(180deg, #3b82f6 0%, #2563eb 100%);
+  color: #ffffff;
+  border-color: #1d4ed8;
+  box-shadow: 0 3px 0 #1e40af, 0 4px 6px rgba(0,0,0,0.2);
+}
+
+.hw-button.btn-start-stop:active,
+.hw-button.btn-start-stop.pressed {
+  box-shadow: 0 1px 0 #1e40af;
+}
+
+.hw-button.btn-start-stop.running {
+  background: linear-gradient(180deg, #ef4444 0%, #dc2626 100%);
+  border-color: #b91c1c;
+  box-shadow: 0 3px 0 #991b1b, 0 4px 6px rgba(0,0,0,0.2);
+}
+
+.hw-button.btn-reset {
+  background: linear-gradient(180deg, #f1f5f9 0%, #cbd5e1 100%);
+}
+
+[data-theme="black"] .hw-button.btn-reset {
+  background: linear-gradient(180deg, #475569 0%, #334155 100%);
+}
+
+/* =====================================================================
+   PRESETS & QUICK ACTIONS DRAWER
+===================================================================== */
+.quick-panel {
+  width: 100%;
+  background: rgba(30, 41, 59, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.quick-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+.preset-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.preset-chip {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #e2e8f0;
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.preset-chip:hover {
+  background: rgba(59, 130, 246, 0.2);
+  border-color: #3b82f6;
+  color: #ffffff;
+}
+
+.control-shortcuts {
+  font-size: 0.75rem;
+  color: #64748b;
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.control-shortcuts kbd {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: #cbd5e1;
+  font-family: inherit;
+}
+
+/* =====================================================================
+   COMPACT MINI-BAR MODE (Optimized for Desktop / Tauri floating)
+===================================================================== */
+body.compact-mode {
+  padding: 4px;
+  background: transparent;
+}
+
+body.compact-mode .app-container {
+  max-width: 100%;
+}
+
+body.compact-mode .window-drag-region {
+  padding: 4px 8px;
+  font-size: 0.75rem;
+}
+
+body.compact-mode .quick-panel,
+body.compact-mode .device-header {
+  display: none !important;
+}
+
+body.compact-mode .timer-device {
+  padding: 8px 12px 10px;
+  gap: 8px;
+  border-radius: 10px;
+}
+
+body.compact-mode .lcd-bar-track {
+  height: 24px;
+}
+
+body.compact-mode .lcd-digits-display {
+  font-size: 2rem;
+}
+
+body.compact-mode .hw-button {
+  height: 38px;
+}
+
+body.compact-mode .hw-button .btn-label {
+  font-size: 0.78rem;
+}
+
+body.compact-mode .hw-button .btn-sublabel {
+  display: none;
+}
+
+/* =====================================================================
+   VERTICAL BAR ORIENTATION
+===================================================================== */
+.timer-device.vertical-mode {
+  max-width: 220px;
+  margin: 0 auto;
+}
+
+.timer-device.vertical-mode .timer-lcd-screen {
+  flex-direction: column;
+}
+
+.timer-device.vertical-mode .lcd-bar-track {
+  flex-direction: column-reverse;
+  height: 320px;
+  width: 100%;
+}
+
+.timer-device.vertical-mode .hardware-buttons-grid {
+  grid-template-columns: 1fr 1fr;
+}
+
+.timer-device.vertical-mode .hw-button.btn-start-stop {
+  grid-column: span 2;
+}
+
+/* Responsive adjustments for mobile screens */
+@media (max-width: 640px) {
+  .hardware-buttons-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .hw-button.btn-start-stop {
+    grid-column: span 2;
+  }
+  .lcd-digits-display {
+    font-size: 2.6rem;
+  }
+  .lcd-bar-track {
+    height: 34px;
+    gap: 3px;
+  }
+}
