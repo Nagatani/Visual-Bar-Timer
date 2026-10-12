@@ -29,8 +29,15 @@ visual-bar-timer/
 ├── web/                         # Pure Vanilla Web Application (Zero external libraries)
 │   ├── index.html               # Semantic HTML markup, LCD indicators, tactile button grid
 │   ├── style.css                # Authentic hardware styling, LCD fonts, White/Black themes
-│   ├── app.js                   # Application state machine, 20-bar calculations, shortcuts
+│   ├── timer-engine.js          # Core calculation & state machine (shared by web & test runner)
+│   ├── app.js                   # UI controller, DOM bindings, shortcuts, Tauri bridge
 │   └── audio.js                 # Web Audio API synthesizer for electronic buzzer tones
+│
+├── test/                        # Automated Test Suite (Node.js Test Runner)
+│   ├── timer-calculation.test.js # 20-segment math, countdown/up formulas, time formatting
+│   ├── state-machine.test.js    # Normal countdown, countup, and Pomodoro transition cycles
+│   ├── presets-and-settings.test.js # Presets (pomodoro, 3m, 5m, etc.) and boundary clamping
+│   └── dom-integration.test.js  # DOM components, hardware buttons, brand compliance
 │
 └── src-tauri/                   # Tauri 2.x Rust desktop backend
     ├── Cargo.toml               # Rust dependencies (tauri v2, log)
@@ -126,6 +133,15 @@ npm run tauri:dev
 
 # Build production installer / executable
 npm run tauri:build
+```
+
+### Running Automated Tests
+```bash
+# Run all unit and integration tests (built-in Node test runner, 38 passing tests)
+npm test
+
+# Run tests in watch mode during development
+node --test --watch test/*.test.js
 ```
 
 ---

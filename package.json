@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Visual Bar Timer - Web & Tauri Desktop App with 20-segment LCD display",
   "scripts": {
+    "test": "node --test test/*.test.js",
     "start": "npx serve web -p 3000",
     "web": "npx serve web -p 3000",
     "tauri": "tauri",
